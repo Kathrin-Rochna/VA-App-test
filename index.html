@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Allgäuer Baufachkongress 2026</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#D9431C;--red-h:#b83616;
+  --bg:#F5F5F3;--surface:#ffffff;--surface2:#F0EEE9;
+  --border:#E2E0DA;--border-strong:#C8C5BD;
+  --text:#1A1A18;--muted:#7A7870;--accent:#2C5F3A;
+  --gold:#8A6A1A;--shadow:0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.10);
+  --r:10px;--r-lg:14px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;}
+button{cursor:pointer;font-family:inherit;}
+input,textarea,select{font-family:inherit;font-size:14px;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ── LAYOUT ── */
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:720px;margin:0 auto;}
+
+/* ── HEADER ── */
+.header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;padding:4px 9px;border-radius:3px;text-transform:uppercase;}
+.logo-text{font-size:14px;font-weight:700;color:var(--text);line-height:1.25;}
+.logo-sub{font-size:11px;color:var(--muted);}
+.header-right{display:flex;align-items:center;gap:8px;}
+.avatar-btn{width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;font-size:13px;font-weight:700;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.logout-btn{background:none;border:1px solid var(--border);color:var(--muted);font-size:12px;cursor:pointer;padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;transition:all .2s;}
+.logout-btn:hover{border-color:var(--border-strong);color:var(--text);}
+
+/* ── SCREENS ── */
+.screen{display:none;flex:1;flex-direction:column;}
+.screen.active{display:flex;}
+
+/* ══ LOGIN ══ */
+.login-hero{background:var(--surface);border-bottom:1px solid var(--border);padding:36px 20px 28px;text-align:center;}
+.login-kicker{display:inline-block;background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;padding:4px 12px;border-radius:3px;text-transform:uppercase;margin-bottom:12px;}
+.login-title{font-size:26px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.02em;}
+.login-date{font-size:13px;color:var(--gold);font-weight:600;margin-bottom:3px;}
+.login-loc{font-size:12px;color:var(--muted);}
+.mountain{display:block;margin:0 auto 20px;}
+.login-body{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 40px;}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px 24px;width:100%;max-width:420px;box-shadow:var(--shadow-md);}
+.login-card h2{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.login-card>p{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px 13px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);background:#fff;}
+.field input::placeholder{color:#B0ADA6;}
+.btn-primary{width:100%;background:var(--red);color:#fff;border:none;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-primary:hover{background:var(--red-h);}
+.btn-secondary{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-secondary:hover{border-color:var(--border-strong);background:var(--surface2);}
+.login-hint{margin-top:18px;padding:13px;background:var(--bg);border-radius:8px;font-size:12px;color:var(--muted);line-height:1.7;border:1px solid var(--border);}
+.login-hint strong{color:var(--accent);}
+.login-error{color:#c0392b;font-size:13px;margin-top:10px;display:none;align-items:center;gap:6px;}
+.divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+/* ══ NAV TABS ══ */
+.nav-tabs{background:var(--surface);border-bottom:1px solid var(--border);display:flex;}
+.nav-tab{flex:1;padding:12px 4px 10px;text-align:center;font-size:11px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:3px;user-select:none;}
+.nav-tab i{font-size:19px;}
+.nav-tab.active{color:var(--red);border-bottom-color:var(--red);font-weight:600;}
+.nav-tab:hover:not(.active){color:var(--text);}
+
+/* ══ CONTENT ══ */
+.content{flex:1;overflow-y:auto;padding:16px;}
+
+/* ══ CARDS ══ */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;box-shadow:var(--shadow);}
+.card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.card-sub{font-size:12px;color:var(--muted);}
+
+/* ══ PROGRAMM TAB ══ */
+.welcome-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow);}
+.w-avatar{width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.w-text h3{font-size:14px;font-weight:700;color:var(--text);}
+.w-text p{font-size:12px;color:var(--muted);margin-top:1px;}
+.w-badge{margin-left:auto;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap;flex-shrink:0;}
+
+.day-selector{display:flex;gap:8px;margin-bottom:14px;}
+.day-btn{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 4px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);}
+.day-btn.active{background:#fff;border-color:var(--red);box-shadow:0 0 0 2px rgba(217,67,28,.12);}
+.day-btn .dl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.day-btn .dd{font-size:13px;font-weight:700;color:var(--text);margin-top:2px;}
+.day-btn .dn{font-size:10px;color:var(--red);margin-top:2px;font-weight:600;}
+.day-btn:hover:not(.active){border-color:var(--border-strong);}
+
+.session-group-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:4px 0 8px;display:flex;align-items:center;gap:5px;}
+.session-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;display:flex;gap:13px;align-items:flex-start;margin-bottom:8px;transition:border-color .15s;box-shadow:var(--shadow);}
+.session-card:hover{border-color:var(--border-strong);}
+.session-card.mine{border-left:3px solid var(--red);}
+.sc-time{min-width:54px;text-align:right;flex-shrink:0;padding-top:1px;}
+.sc-t{font-size:12px;font-weight:700;color:var(--accent);}
+.sc-dur{font-size:10px;color:var(--muted);margin-top:2px;}
+.sc-body{flex:1;min-width:0;}
+.sc-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:2px;}
+.session-card.mine .sc-type{color:var(--red);}
+.sc-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px;}
+.sc-speaker{font-size:12px;color:var(--muted);}
+.sc-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.sc-room{display:inline-flex;align-items:center;gap:3px;background:var(--bg);color:var(--muted);font-size:10px;border-radius:4px;padding:2px 7px;border:1px solid var(--border);}
+.mine-lbl{font-size:10px;color:var(--red);font-weight:700;display:inline-flex;align-items:center;gap:3px;}
+
+/* ══ MEIN PLAN TAB ══ */
+.stats-row{display:flex;gap:8px;margin-top:12px;}
+.stat-box{flex:1;background:var(--bg);border-radius:8px;padding:10px 12px;text-align:center;border:1px solid var(--border);}
+.stat-n{font-size:22px;font-weight:800;color:var(--text);}
+.stat-l{font-size:11px;color:var(--muted);margin-top:1px;}
+.my-day-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 6px;display:flex;align-items:center;gap:5px;}
+.my-s-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--r);padding:13px 15px;margin-bottom:8px;box-shadow:var(--shadow);}
+.ms-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.ms-time{font-size:12px;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:4px;}
+.ms-tag{font-size:10px;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:10px;border:1px solid var(--border);}
+.ms-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:3px;}
+.ms-speaker{font-size:12px;color:var(--muted);margin-bottom:5px;}
+.ms-room{font-size:11px;color:var(--accent);display:flex;align-items:center;gap:4px;}
+
+/* ══ NETZWERK TAB ══ */
+.search-bar{position:relative;margin-bottom:14px;}
+.search-bar i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:17px;color:var(--muted);pointer-events:none;}
+.search-bar input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px 11px 38px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;box-shadow:var(--shadow);}
+.search-bar input:focus{border-color:var(--accent);}
+.filter-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.filter-chip{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.filter-chip.active{background:var(--red);color:#fff;border-color:var(--red);}
+.filter-chip:hover:not(.active){border-color:var(--border-strong);color:var(--text);}
+.participant-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;transition:border-color .15s;box-shadow:var(--shadow);}
+.participant-card:hover{border-color:var(--border-strong);}
+.p-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
+.p-info{flex:1;min-width:0;}
+.p-name{font-size:14px;font-weight:700;color:var(--text);}
+.p-pos{font-size:12px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.p-tags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap;}
+.p-tag{font-size:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--muted);}
+.p-action{flex-shrink:0;}
+.p-mail-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:7px 11px;font-size:12px;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;}
+.p-mail-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+.no-results{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;}
+.no-results i{font-size:32px;display:block;margin-bottom:8px;opacity:.4;}
+
+/* ══ PROFIL TAB ══ */
+.profile-hero{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:12px;text-align:center;box-shadow:var(--shadow);}
+.profile-avatar-lg{width:72px;height:72px;border-radius:50%;background:var(--red);color:#fff;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.profile-name{font-size:18px;font-weight:800;color:var(--text);margin-bottom:3px;}
+.profile-pos{font-size:13px;color:var(--muted);}
+.profile-ticket{display:inline-flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--gold);font-weight:600;margin-top:10px;}
+.edit-section{margin-bottom:10px;}
+.edit-section h3{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:5px;}
+.edit-row{display:flex;gap:8px;margin-bottom:10px;}
+.edit-row .field{flex:1;margin-bottom:0;}
+.save-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:6px;}
+.save-btn:hover{background:#1e4a2a;}
+.save-success{color:var(--accent);font-size:13px;font-weight:600;display:none;align-items:center;gap:5px;margin-top:8px;}
+.visibility-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.visibility-row:last-child{border-bottom:none;}
+.vis-label{font-size:13px;color:var(--text);}
+.vis-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border-strong);border-radius:22px;cursor:pointer;transition:.2s;}
+.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+.toggle input:checked+.toggle-slider{background:var(--accent);}
+.toggle input:checked+.toggle-slider:before{transform:translateX(18px);}
+
+/* ══ INFO TAB ══ */
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;box-shadow:var(--shadow);}
+.info-card h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.info-card h3 i{color:var(--red);font-size:17px;}
+.info-card p{font-size:13px;color:var(--muted);line-height:1.65;}
+.contact-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;}
+.contact-row i{color:var(--accent);font-size:15px;margin-top:2px;width:18px;flex-shrink:0;}
+.contact-row span{color:var(--muted);}
+.contact-row strong{color:var(--text);display:block;}
+.wifi-box{background:var(--bg);border-radius:8px;padding:10px 13px;margin-top:8px;border:1px solid var(--border);}
+.wifi-row{display:flex;justify-content:space-between;padding:3px 0;font-size:13px;}
+.wifi-row span:first-child{color:var(--muted);}
+.wifi-row span:last-child{color:var(--text);font-weight:700;font-family:monospace;}
+
+/* ══ MODAL ══ */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-backdrop.open{display:flex;}
+.modal{background:var(--surface);border-radius:var(--r-lg);padding:24px;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,.15);}
+.modal h2{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.modal h2 i{color:var(--red);font-size:20px;}
+.modal-actions{display:flex;gap:8px;margin-top:18px;justify-content:flex-end;}
+
+@media(max-width:480px){
+  .login-title{font-size:22px;}
+  .w-badge{display:none;}
+  .edit-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- HEADER -->
+<header class="header" id="mainHeader" style="display:none">
+  <div class="logo">
+    <div class="logo-badge">BFK</div>
+    <div>
+      <div class="logo-text">Allgäuer Baufachkongress</div>
+      <div class="logo-sub">14.–16. Januar 2026 · Oberstdorf</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="avatar-btn" id="headerAvatar" onclick="switchTab('profil')" title="Mein Profil">M</button>
+    <button class="logout-btn" onclick="logout()"><i class="ti ti-logout"></i>Abmelden</button>
+  </div>
+</header>
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div class="screen active" id="loginScreen">
+  <div class="login-hero">
+    <svg class="mountain" width="300" height="90" viewBox="0 0 300 90">
+      <polygon points="150,8 210,72 90,72" fill="rgba(217,67,28,.06)" stroke="#D4C8BE" stroke-width="1"/>
+      <polygon points="88,26 138,72 38,72" fill="rgba(44,95,58,.04)" stroke="#C8BEAA" stroke-width=".8"/>
+      <polygon points="212,32 265,72 159,72" fill="rgba(44,95,58,.04)" stroke="#C8BEAA" stroke-width=".8"/>
+      <line x1="0" y1="72" x2="300" y2="72" stroke="#E2E0DA" stroke-width="1"/>
+      <text x="150" y="86" text-anchor="middle" font-size="7.5" fill="#B0ADA6" letter-spacing="4.5" font-family="sans-serif">OBERSTDORF · ALLGÄU</text>
+    </svg>
+    <div class="login-kicker">16. Allgäuer Baufachkongress</div>
+    <div class="login-title">Gipfeltreffen der Baubranche</div>
+    <div class="login-date"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px"></i> 14.–16. Januar 2026</div>
+    <div class="login-loc" style="margin-top:4px"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px"></i> Oberstdorf Haus, Prinzregenten-Platz 1</div>
+  </div>
+  <div class="login-body">
+    <div class="login-card">
+      <h2>Teilnehmer-Login</h2>
+      <p>Melden Sie sich mit Ihrer Ticketnummer und Ihrem Nachnamen an.</p>
+      <div class="field"><label><i class="ti ti-ticket" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Ticketnummer</label><input type="text" id="ticketInput" placeholder="z.B. BFK2026-1234" autocomplete="off"/></div>
+      <div class="field"><label><i class="ti ti-user" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Nachname</label><input type="text" id="nameInput" placeholder="Ihr Nachname" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <button class="btn-primary" onclick="doLogin()"><i class="ti ti-login"></i>Anmelden</button>
+      <div class="login-error" id="loginError"><i class="ti ti-alert-circle" style="font-size:15px"></i>Zugangsdaten nicht gefunden.</div>
+      <hr class="divider">
+      <div class="login-hint">
+        <strong>Demo-Zugänge:</strong><br>
+        Ticket <strong>BFK2026-1001</strong> · Name <strong>Müller</strong><br>
+        Ticket <strong>BFK2026-1002</strong> · Name <strong>Schmidt</strong><br>
+        Ticket <strong>BFK2026-1003</strong> · Name <strong>Weber</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN APP SCREEN ══ -->
+<div class="screen" id="mainScreen">
+  <nav class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('programm')" id="tab-programm"><i class="ti ti-calendar-event"></i>Programm</div>
+    <div class="nav-tab" onclick="switchTab('mein')" id="tab-mein"><i class="ti ti-star"></i>Mein Plan</div>
+    <div class="nav-tab" onclick="switchTab('netzwerk')" id="tab-netzwerk"><i class="ti ti-users"></i>Netzwerk</div>
+    <div class="nav-tab" onclick="switchTab('profil')" id="tab-profil"><i class="ti ti-user-circle"></i>Profil</div>
+    <div class="nav-tab" onclick="switchTab('info')" id="tab-info"><i class="ti ti-info-circle"></i>Info</div>
+  </nav>
+
+  <!-- PROGRAMM -->
+  <div class="content" id="tabProgramm">
+    <div class="welcome-bar">
+      <div class="w-avatar" id="wAvatar">M</div>
+      <div class="w-text"><h3 id="wName">Willkommen!</h3><p id="wSub">Ihr persönlicher Kongressplan</p></div>
+      <div class="w-badge"><i class="ti ti-ticket" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i><span id="wTicket"></span></div>
+    </div>
+    <div class="day-selector">
+      <div class="day-btn active" onclick="switchDay(0)" id="dayBtn0"><div class="dl">Mi</div><div class="dd">14. Jan</div><div class="dn">Tag 1</div></div>
+      <div class="day-btn" onclick="switchDay(1)" id="dayBtn1"><div class="dl">Do</div><div class="dd">15. Jan</div><div class="dn">Tag 2</div></div>
+      <div class="day-btn" onclick="switchDay(2)" id="dayBtn2"><div class="dl">Fr</div><div class="dd">16. Jan</div><div class="dn">Tag 3</div></div>
+    </div>
+    <div id="sessionList"></div>
+  </div>
+
+  <!-- MEIN PLAN -->
+  <div class="content" id="tabMein" style="display:none">
+    <div class="card">
+      <div class="card-title">Mein persönliches Programm</div>
+      <div class="card-sub">Ihre gebuchten Sessions und Vorträge</div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-n" id="myCount">0</div><div class="stat-l">Sessions</div></div>
+        <div class="stat-box"><div class="stat-n">3</div><div class="stat-l">Tage</div></div>
+        <div class="stat-box"><div class="stat-n">50+</div><div class="stat-l">Referenten</div></div>
+      </div>
+    </div>
+    <div id="mySessionList"></div>
+  </div>
+
+  <!-- NETZWERK -->
+  <div class="content" id="tabNetzwerk" style="display:none">
+    <div class="search-bar">
+      <i class="ti ti-search"></i>
+      <input type="text" id="searchInput" placeholder="Name, Firma oder Position suchen…" oninput="renderNetwork()"/>
+    </div>
+    <div class="filter-row" id="filterRow"></div>
+    <div id="participantList"></div>
+  </div>
+
+  <!-- PROFIL -->
+  <div class="content" id="tabProfil" style="display:none">
+    <div class="profile-hero">
+      <div class="profile-avatar-lg" id="profAvatarLg">M</div>
+      <div class="profile-name" id="profName">–</div>
+      <div class="profile-pos" id="profPosDisplay">Position · Firma</div>
+      <div class="profile-ticket"><i class="ti ti-ticket" style="font-size:12px"></i><span id="profTicket"></span></div>
+    </div>
+
+    <div class="card">
+      <div class="edit-section">
+        <h3><i class="ti ti-building" style="font-size:14px;vertical-align:-2px;color:var(--red)"></i>Berufliche Angaben</h3>
+        <div class="edit-row">
+          <div class="field"><label>Firma / Unternehmen</label><input type="text" id="pFirma" placeholder="z.B. Baumit GmbH"/></div>
+        </div>
+        <div class="edit-row">
+          <div class="field"><label>Position / Rolle</label><input type="text" id="pPosition" placeholder="z.B. Geschäftsführer"/></div>
+          <div class="field"><label>Branche</label>
+            <select id="pBranche">
+              <option value="">Bitte wählen…</option>
+              <option>Handel</option><option>Handwerk</option><option>Architektur</option>
+              <option>Industrie</option><option>Planung</option><option>Sonstiges</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="edit-section">
+        <h3><i class="ti ti-address-book" style="font-size:14px;vertical-align:-2px;color:var(--red)"></i>Kontaktdaten</h3>
+        <div class="field"><label>E-Mail</label><input type="email" id="pEmail" placeholder="ihre@email.de"/></div>
+        <div class="edit-row">
+          <div class="field"><label>Telefon</label><input type="tel" id="pTel" placeholder="+49 …"/></div>
+          <div class="field"><label>Website</label><input type="text" id="pWeb" placeholder="www.firma.de"/></div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="edit-section">
+        <h3><i class="ti ti-message" style="font-size:14px;vertical-align:-2px;color:var(--red)"></i>Ich suche / biete</h3>
+        <div class="field"><textarea id="pBio" rows="3" placeholder="z.B. Suche Lieferanten für WDVS-Systeme · Biete Beratung im Bereich energetische Sanierung" style="resize:vertical"></textarea></div>
+      </div>
+      <hr class="divider">
+      <div class="edit-section">
+        <h3><i class="ti ti-eye" style="font-size:14px;vertical-align:-2px;color:var(--red)"></i>Sichtbarkeit im Netzwerk</h3>
+        <div class="visibility-row">
+          <div><div class="vis-label">Im Netzwerk sichtbar</div><div class="vis-sub">Andere Teilnehmer können mein Profil finden</div></div>
+          <label class="toggle"><input type="checkbox" id="visNetwork" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="visibility-row">
+          <div><div class="vis-label">E-Mail anzeigen</div><div class="vis-sub">Meine E-Mail-Adresse ist für andere sichtbar</div></div>
+          <label class="toggle"><input type="checkbox" id="visEmail" checked><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveProfile()"><i class="ti ti-device-floppy"></i>Profil speichern</button>
+      <div class="save-success" id="saveSuccess"><i class="ti ti-circle-check" style="font-size:16px"></i>Profil gespeichert!</div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="content" id="tabInfo" style="display:none">
+    <div class="info-card"><h3><i class="ti ti-map-pin"></i>Veranstaltungsort</h3><p><strong style="color:var(--text)">Oberstdorf Haus</strong><br>Prinzregenten-Platz 1 (Prinzenstraße)<br>87561 Oberstdorf<br><br><a href="https://maps.app.goo.gl/gEsnJjUoD8mRSnDC9" target="_blank"><i class="ti ti-external-link" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>In Google Maps öffnen</a></p></div>
+    <div class="info-card"><h3><i class="ti ti-bus"></i>Anreise &amp; Shuttle</h3><p>Oberstdorf ist weitgehend autofrei. Bitte nutzen Sie die <strong style="color:var(--text)">Kongress-Shuttlebusse</strong> vom Parkplatz P2 (mit Gästekarte kostenlos). Hotelgäste können ihre Unterkunft direkt anfahren.</p></div>
+    <div class="info-card"><h3><i class="ti ti-wifi"></i>Kongress-WLAN</h3><div class="wifi-box"><div class="wifi-row"><span>Netzwerk</span><span>BFK2026-Guest</span></div><hr style="border:none;border-top:1px solid var(--border);margin:4px 0"><div class="wifi-row"><span>Passwort</span><span>Baumit2026!</span></div></div></div>
+    <div class="info-card"><h3><i class="ti ti-phone"></i>Kongressbüro</h3>
+      <div class="contact-row"><i class="ti ti-user"></i><div><strong>Heike von Küstenfeld</strong><span>Kongressleitung · +49 (0) 8324 921-1261</span></div></div>
+      <div class="contact-row"><i class="ti ti-user"></i><div><strong>Teresa Karg</strong><span>Kongressbüro · +49 (0) 8324 921-1263</span></div></div>
+    </div>
+    <div class="info-card"><h3><i class="ti ti-award"></i>Fortbildungspunkte</h3><p>Die Anerkennung der Fortbildungsveranstaltung steht auf <a href="https://www.baufachkongress.com" target="_blank">baufachkongress.com</a> als Download zur Verfügung.</p></div>
+  </div>
+</div><!-- /mainScreen -->
+
+<!-- E-MAIL MODAL -->
+<div class="modal-backdrop" id="mailModal">
+  <div class="modal">
+    <h2><i class="ti ti-mail"></i>E-Mail schreiben</h2>
+    <div class="field"><label>An</label><input type="text" id="mailTo" readonly style="background:var(--bg)"/></div>
+    <div class="field"><label>Betreff</label><input type="text" id="mailSubject" value="Kontaktaufnahme – Allgäuer Baufachkongress 2026"/></div>
+    <div class="field"><label>Nachricht</label><textarea id="mailBody" rows="5" style="resize:vertical"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
+      <button class="btn-primary" style="width:auto" onclick="sendMail()"><i class="ti ti-send"></i>E-Mail öffnen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATEN ────────────────────────────────────────────────────────────────────
+const USERS={
+  'BFK2026-1001|müller':{id:'u1',name:'Klaus Müller',ticket:'BFK2026-1001',mySessions:[0,3,6,9,12,16],profile:{firma:'Baustoff Müller GmbH',position:'Geschäftsführer',branche:'Handel',email:'k.mueller@baustoff-mueller.de',tel:'+49 89 12345678',web:'www.baustoff-mueller.de',bio:'Suche Kontakte im Bereich WDVS-Systeme und nachhaltige Fassadentechnik.',visNetwork:true,visEmail:true}},
+  'BFK2026-1002|schmidt':{id:'u2',name:'Andrea Schmidt',ticket:'BFK2026-1002',mySessions:[1,4,7,10,13,17],profile:{firma:'Schmidt Malerbetrieb',position:'Inhaberin',branche:'Handwerk',email:'a.schmidt@malerbetrieb-schmidt.de',tel:'+49 711 9876543',web:'',bio:'Biete Expertise in der energetischen Sanierung von Altbauten.',visNetwork:true,visEmail:true}},
+  'BFK2026-1003|weber':{id:'u3',name:'Thomas Weber',ticket:'BFK2026-1003',mySessions:[2,5,8,11,14,18],profile:{firma:'Weber Architekten',position:'Architekt BDA',branche:'Architektur',email:'t.weber@weber-architekten.de',tel:'+49 30 55443322',web:'www.weber-architekten.de',bio:'Interessiert an seriellem Bauen und KI-gestützter Planung.',visNetwork:true,visEmail:true}},
+};
+
+// Demo-Netzwerk-Teilnehmer
+const ALL_PARTICIPANTS=[
+  {id:'u1',name:'Klaus Müller',firma:'Baustoff Müller GmbH',position:'Geschäftsführer',branche:'Handel',email:'k.mueller@baustoff-mueller.de',visEmail:true,bio:'Suche Kontakte im Bereich WDVS-Systeme.'},
+  {id:'u2',name:'Andrea Schmidt',firma:'Schmidt Malerbetrieb',position:'Inhaberin',branche:'Handwerk',email:'a.schmidt@malerbetrieb-schmidt.de',visEmail:true,bio:'Biete Expertise in der energetischen Sanierung.'},
+  {id:'u3',name:'Thomas Weber',firma:'Weber Architekten',position:'Architekt BDA',branche:'Architektur',email:'t.weber@weber-architekten.de',visEmail:true,bio:'Interessiert an seriellem Bauen und KI.'},
+  {id:'u4',name:'Sabine Hoffmann',firma:'Hoffmann Bau GmbH',position:'Projektleiterin',branche:'Handwerk',email:'s.hoffmann@hoffmann-bau.de',visEmail:true,bio:''},
+  {id:'u5',name:'Michael Bauer',firma:'Bauer & Söhne OHG',position:'Vertriebsleiter',branche:'Handel',email:'m.bauer@bauer-soehne.de',visEmail:false,bio:'Suche Kooperationspartner für Norddeutschland.'},
+  {id:'u6',name:'Lisa Richter',firma:'Richter Ingenieure',position:'Bauingenieurin',branche:'Planung',email:'l.richter@richter-ing.de',visEmail:true,bio:'Spezialisiert auf Bestandssanierung.'},
+  {id:'u7',name:'Peter Knopp',firma:'Knopp Fassadentechnik',position:'Inhaber',branche:'Handwerk',email:'p.knopp@knopp-fassade.de',visEmail:true,bio:'Biete Schulungen für WDVS-Systeme an.'},
+  {id:'u8',name:'Julia Sommer',firma:'Sommer Architektur AG',position:'Geschäftsführerin',branche:'Architektur',email:'j.sommer@sommer-architektur.de',visEmail:true,bio:''},
+  {id:'u9',name:'Markus Klein',firma:'Klein Farben GmbH',position:'Regionalleiter',branche:'Handel',email:'m.klein@klein-farben.de',visEmail:false,bio:'Suche Handwerksbetriebe als Vertriebspartner.'},
+  {id:'u10',name:'Katharina Wolf',firma:'Wolf & Partner',position:'Architektin',branche:'Architektur',email:'k.wolf@wolf-partner.de',visEmail:true,bio:'Nachhaltige Stadtentwicklung und Bestandsumbau.'},
+];
+
+const PROGRAM=[
+  {id:0,day:0,time:'10:30',end:'11:30',title:'Nur der Himmel ist höher – Herausforderungen meistern',speaker:'Helga Hengge',type:'Keynote',room:'Hauptbühne'},
+  {id:1,day:0,time:'11:30',end:'12:30',title:'Keine Angst vor der Zukunft – Anleitung zum positiven Denken',speaker:'Dr. Florence Gaub',type:'Keynote',room:'Hauptbühne'},
+  {id:2,day:0,time:'13:30',end:'14:30',title:'Praxis: Fassade – WDVS Detaillösungen vom Sockel bis zum Dach',speaker:'Baumit-Team',type:'Praxis-Workshop',room:'Werkstattraum'},
+  {id:3,day:0,time:'13:45',end:'14:30',title:'Entwicklung der Baukonjunktur – Zahlen, Daten, Fakten',speaker:'Martin Langen',type:'Vortrag',room:'Saal A'},
+  {id:4,day:0,time:'14:30',end:'15:15',title:'febis-Fördermittelservice – Instrumente zur Kundenansprache',speaker:'Martin Kutschka',type:'Vortrag',room:'Saal B'},
+  {id:5,day:0,time:'15:00',end:'15:45',title:'Generation Z wie Zukunft – Junge Mitarbeitende gewinnen und binden',speaker:'Simon Schnetzer',type:'Vortrag',room:'Saal A'},
+  {id:6,day:0,time:'15:15',end:'16:15',title:'Praxis: Innenraum – Wohngesunde Produkte klassisch oder kreativ',speaker:'Baumit-Team',type:'Praxis-Workshop',room:'Werkstattraum'},
+  {id:7,day:0,time:'16:30',end:'17:00',title:'Erfahrene Fachkräfte magnetisch anziehen und halten',speaker:'Klaus Tessmann',type:'Vortrag',room:'Saal A'},
+  {id:8,day:0,time:'17:00',end:'17:30',title:'Betriebe auf dem Weg zur starken Marke – welche Rolle KI dabei spielt',speaker:'Natalie Häntze',type:'Vortrag',room:'Saal B'},
+  {id:9,day:1,time:'09:00',end:'10:00',title:'Gehirn vs. Künstliche Intelligenz – Besser denken in digitalen Zeiten',speaker:'Dr. Henning Beck',type:'Keynote',room:'Hauptbühne'},
+  {id:10,day:1,time:'10:15',end:'10:45',title:'Handwerk 4.0 – Chancen durch KI-Optimierung',speaker:'Patrick Amato',type:'Vortrag',room:'Saal A'},
+  {id:11,day:1,time:'10:15',end:'11:00',title:'Serielles, modulares und systemisches Bauen',speaker:'Georg Lange',type:'Vortrag',room:'Saal B'},
+  {id:12,day:1,time:'11:15',end:'12:00',title:'Klassisches und Serielles Bauen im Einklang',speaker:'Tim Kirchhoff',type:'Vortrag',room:'Saal A'},
+  {id:13,day:1,time:'13:30',end:'14:15',title:'Ich glaube, es h@ckt! – Cyberkriminelle und Passwort-Sicherheit',speaker:'Tobias Schrödel',type:'Vortrag',room:'Hauptbühne'},
+  {id:14,day:1,time:'15:00',end:'15:45',title:'Mehr Wohnungen für Deutschland – 50% weniger Kosten',speaker:'Dr. Ernst Böhm',type:'Vortrag',room:'Saal A'},
+  {id:15,day:1,time:'15:15',end:'16:00',title:'Round-Table KI – KI am Bau: Freund oder Feind?',speaker:'Dr. Beck · Dr. Busch · Amato u.a.',type:'Podiumsdiskussion',room:'Hauptbühne'},
+  {id:16,day:1,time:'16:00',end:'16:45',title:'Gebäudetyp E aus rechtlicher Sicht',speaker:'Michael Halstenberg',type:'Vortrag',room:'Saal B'},
+  {id:17,day:2,time:'09:30',end:'10:30',title:'Definiere Ziele, die SEXY sind – Motivation zur Höchstleistung',speaker:'Rüdiger Böhm',type:'Keynote',room:'Hauptbühne'},
+  {id:18,day:2,time:'10:00',end:'10:45',title:'Neues aus Karlsruhe – Aktuelle Rechtsprechung für die Baupraxis',speaker:'Dr. Frederik Neyheusel',type:'Vortrag',room:'Saal A'},
+  {id:19,day:2,time:'10:45',end:'11:45',title:'Disziplin ist nicht käuflich, aber sie zahlt sich aus!',speaker:'Marc Gassert',type:'Vortrag',room:'Hauptbühne'},
+  {id:20,day:2,time:'11:00',end:'11:45',title:'Der 3. Finanzierungsweg des Bauherrn',speaker:'Michael Halstenberg',type:'Vortrag',room:'Saal B'},
+  {id:21,day:2,time:'12:00',end:'13:15',title:'Von der Vision zur Marke – Judith Williams über ihren Weg nach oben',speaker:'Judith Williams',type:'Abschluss-Keynote',room:'Hauptbühne'},
+];
+
+const COLORS=['#D9431C','#2C5F3A','#8A6A1A','#1A5C8A','#7A3A7A','#3A6A7A'];
+const DAY_FULL=['Mittwoch, 14. Januar 2026','Donnerstag, 15. Januar 2026','Freitag, 16. Januar 2026'];
+const DAY_SHORT=['Mi, 14. Jan','Do, 15. Jan','Fr, 16. Jan'];
+
+let currentUser=null,currentDay=0,activeFilter='Alle';
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+function doLogin(){
+  const t=document.getElementById('ticketInput').value.trim();
+  const n=document.getElementById('nameInput').value.trim().toLowerCase();
+  const user=USERS[t+'|'+n];
+  const err=document.getElementById('loginError');
+  if(!user){err.style.display='flex';return;}
+  err.style.display='none';
+  currentUser=user;
+  const init=initials(user.name);
+  document.getElementById('wAvatar').textContent=init;
+  document.getElementById('wName').textContent='Willkommen, '+user.name.split(' ')[0]+'!';
+  document.getElementById('wSub').textContent=user.profile.branche+' · '+user.profile.firma;
+  document.getElementById('wTicket').textContent=user.ticket;
+  document.getElementById('headerAvatar').textContent=init;
+  document.getElementById('loginScreen').classList.remove('active');
+  document.getElementById('mainScreen').classList.add('active');
+  document.getElementById('mainHeader').style.display='flex';
+  loadProfileForm();
+  switchDay(0);switchTab('programm');
+}
+function logout(){
+  currentUser=null;currentDay=0;activeFilter='Alle';
+  document.getElementById('mainScreen').classList.remove('active');
+  document.getElementById('mainHeader').style.display='none';
+  document.getElementById('loginScreen').classList.add('active');
+  document.getElementById('ticketInput').value='';
+  document.getElementById('nameInput').value='';
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function switchTab(tab){
+  ['programm','mein','netzwerk','profil','info'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===tab);
+    const el=document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1));
+    el.style.display=t===tab?'block':'none';
+  });
+  if(tab==='mein')renderMyPlan();
+  if(tab==='netzwerk'){buildFilters();renderNetwork();}
+  if(tab==='profil')renderProfileDisplay();
+}
+function switchDay(d){
+  currentDay=d;
+  [0,1,2].forEach(i=>document.getElementById('dayBtn'+i).classList.toggle('active',i===d));
+  renderDay(d);
+}
+
+// ── PROGRAMM ──────────────────────────────────────────────────────────────────
+function renderDay(day){
+  const ss=PROGRAM.filter(s=>s.day===day);
+  let h=`<div class="session-group-label"><i class="ti ti-calendar" style="font-size:12px"></i>${DAY_FULL[day]}</div>`;
+  ss.forEach(s=>{
+    const mine=currentUser&&currentUser.mySessions.includes(s.id);
+    const dur=calcDur(s.time,s.end);
+    h+=`<div class="session-card${mine?' mine':''}">
+      <div class="sc-time"><div class="sc-t">${s.time}</div><div class="sc-dur">${dur} Min.</div></div>
+      <div class="sc-body">
+        <div class="sc-type">${s.type}</div>
+        <div class="sc-title">${s.title}</div>
+        <div class="sc-speaker"><i class="ti ti-microphone" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>${s.speaker}</div>
+        <div class="sc-meta">
+          <span class="sc-room"><i class="ti ti-door" style="font-size:11px"></i>${s.room}</span>
+          ${mine?'<span class="mine-lbl"><i class="ti ti-star-filled" style="font-size:11px"></i>Mein Programm</span>':''}
+        </div>
+      </div></div>`;
+  });
+  document.getElementById('sessionList').innerHTML=h;
+}
+
+// ── MEIN PLAN ─────────────────────────────────────────────────────────────────
+function renderMyPlan(){
+  if(!currentUser)return;
+  const mine=PROGRAM.filter(s=>currentUser.mySessions.includes(s.id)).sort((a,b)=>a.day-b.day||a.time.localeCompare(b.time));
+  document.getElementById('myCount').textContent=mine.length;
+  let h='',lastDay=-1;
+  mine.forEach(s=>{
+    if(s.day!==lastDay){lastDay=s.day;h+=`<div class="my-day-label"><i class="ti ti-calendar-week" style="font-size:12px"></i>${DAY_SHORT[s.day]}</div>`;}
+    h+=`<div class="my-s-card">
+      <div class="ms-hd"><div class="ms-time"><i class="ti ti-clock" style="font-size:12px"></i>${s.time} – ${s.end}</div><div class="ms-tag">${calcDur(s.time,s.end)} Min.</div></div>
+      <div class="ms-title">${s.title}</div>
+      <div class="ms-speaker"><i class="ti ti-microphone" style="font-size:11px;vertical-align:-1px;margin-right:4px"></i>${s.speaker}</div>
+      <div class="ms-room"><i class="ti ti-door" style="font-size:12px"></i>${s.room}</div>
+    </div>`;
+  });
+  document.getElementById('mySessionList').innerHTML=h;
+}
+
+// ── NETZWERK ──────────────────────────────────────────────────────────────────
+function buildFilters(){
+  const branches=['Alle',...new Set(ALL_PARTICIPANTS.map(p=>p.branche).filter(Boolean))];
+  document.getElementById('filterRow').innerHTML=branches.map(b=>`<div class="filter-chip${b===activeFilter?' active':''}" onclick="setFilter('${b}')">${b}</div>`).join('');
+}
+function setFilter(f){activeFilter=f;buildFilters();renderNetwork();}
+function renderNetwork(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const list=ALL_PARTICIPANTS.filter(p=>{
+    if(!p.visEmail&&!true)return false; // alle anzeigen, E-Mail nur wenn freigegeben
+    const matchBranch=activeFilter==='Alle'||p.branche===activeFilter;
+    const matchQ=!q||p.name.toLowerCase().includes(q)||p.firma.toLowerCase().includes(q)||p.position.toLowerCase().includes(q);
+    return matchBranch&&matchQ;
+  });
+  if(!list.length){document.getElementById('participantList').innerHTML=`<div class="no-results"><i class="ti ti-users-off"></i>Keine Teilnehmer gefunden.</div>`;return;}
+  const meId=currentUser?currentUser.id:'';
+  document.getElementById('participantList').innerHTML=list.map((p,i)=>{
+    const col=COLORS[i%COLORS.length];
+    const init=initials(p.name);
+    const isMe=p.id===meId;
+    const emailBtn=p.visEmail&&p.email&&!isMe
+      ?`<button class="p-mail-btn" onclick="openMailModal('${p.name}','${p.email}')"><i class="ti ti-mail" style="font-size:14px"></i>Kontakt</button>`
+      :(isMe?`<span style="font-size:11px;color:var(--muted);font-weight:600">Ich</span>`:`<span style="font-size:11px;color:var(--muted)">Keine E-Mail</span>`);
+    return `<div class="participant-card">
+      <div class="p-avatar" style="background:${col}">${init}</div>
+      <div class="p-info">
+        <div class="p-name">${p.name}${isMe?' <span style="font-size:11px;color:var(--red);font-weight:600">(Sie)</span>':''}</div>
+        <div class="p-pos">${p.position} · ${p.firma}</div>
+        <div class="p-tags">
+          ${p.branche?`<span class="p-tag">${p.branche}</span>`:''}
+          ${p.bio?`<span class="p-tag" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.bio}</span>`:''}
+        </div>
+      </div>
+      <div class="p-action">${emailBtn}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── PROFIL ────────────────────────────────────────────────────────────────────
+function loadProfileForm(){
+  if(!currentUser)return;
+  const p=currentUser.profile;
+  document.getElementById('pFirma').value=p.firma||'';
+  document.getElementById('pPosition').value=p.position||'';
+  document.getElementById('pBranche').value=p.branche||'';
+  document.getElementById('pEmail').value=p.email||'';
+  document.getElementById('pTel').value=p.tel||'';
+  document.getElementById('pWeb').value=p.web||'';
+  document.getElementById('pBio').value=p.bio||'';
+  document.getElementById('visNetwork').checked=p.visNetwork!==false;
+  document.getElementById('visEmail').checked=p.visEmail!==false;
+}
+function renderProfileDisplay(){
+  if(!currentUser)return;
+  const p=currentUser.profile;
+  const init=initials(currentUser.name);
+  document.getElementById('profAvatarLg').textContent=init;
+  document.getElementById('profName').textContent=currentUser.name;
+  document.getElementById('profPosDisplay').textContent=(p.position||'–')+' · '+(p.firma||'–');
+  document.getElementById('profTicket').textContent=currentUser.ticket;
+}
+function saveProfile(){
+  if(!currentUser)return;
+  currentUser.profile.firma=document.getElementById('pFirma').value;
+  currentUser.profile.position=document.getElementById('pPosition').value;
+  currentUser.profile.branche=document.getElementById('pBranche').value;
+  currentUser.profile.email=document.getElementById('pEmail').value;
+  currentUser.profile.tel=document.getElementById('pTel').value;
+  currentUser.profile.web=document.getElementById('pWeb').value;
+  currentUser.profile.bio=document.getElementById('pBio').value;
+  currentUser.profile.visNetwork=document.getElementById('visNetwork').checked;
+  currentUser.profile.visEmail=document.getElementById('visEmail').checked;
+  // Netzwerk-Eintrag aktualisieren
+  const idx=ALL_PARTICIPANTS.findIndex(p=>p.id===currentUser.id);
+  if(idx>-1){
+    ALL_PARTICIPANTS[idx].firma=currentUser.profile.firma;
+    ALL_PARTICIPANTS[idx].position=currentUser.profile.position;
+    ALL_PARTICIPANTS[idx].branche=currentUser.profile.branche;
+    ALL_PARTICIPANTS[idx].email=currentUser.profile.email;
+    ALL_PARTICIPANTS[idx].bio=currentUser.profile.bio;
+    ALL_PARTICIPANTS[idx].visEmail=currentUser.profile.visEmail;
+  }
+  renderProfileDisplay();
+  document.getElementById('wSub').textContent=currentUser.profile.branche+' · '+currentUser.profile.firma;
+  const s=document.getElementById('saveSuccess');
+  s.style.display='flex';
+  setTimeout(()=>{s.style.display='none';},3000);
+}
+
+// ── MAIL MODAL ────────────────────────────────────────────────────────────────
+function openMailModal(name,email){
+  const myName=currentUser?currentUser.name:'Kongressteilnehmer';
+  const myFirma=currentUser?currentUser.profile.firma:'';
+  document.getElementById('mailTo').value=name+' <'+email+'>';
+  document.getElementById('mailBody').value=`Guten Tag ${name.split(' ')[0]},\n\nwir haben uns auf dem Allgäuer Baufachkongress 2026 in Oberstdorf getroffen. Ich würde mich gerne mit Ihnen in Verbindung setzen.\n\nMit freundlichen Grüßen\n${myName}${myFirma?'\n'+myFirma:''}`;
+  document.getElementById('mailModal').classList.add('open');
+}
+function closeModal(){document.getElementById('mailModal').classList.remove('open');}
+function sendMail(){
+  const to=document.getElementById('mailTo').value.match(/<(.+)>/);
+  const email=to?to[1]:document.getElementById('mailTo').value;
+  const sub=encodeURIComponent(document.getElementById('mailSubject').value);
+  const body=encodeURIComponent(document.getElementById('mailBody').value);
+  window.location.href=`mailto:${email}?subject=${sub}&body=${body}`;
+  closeModal();
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function calcDur(s,e){const[sh,sm]=s.split(':').map(Number);const[eh,em]=e.split(':').map(Number);return(eh*60+em)-(sh*60+sm);}
+function initials(name){return name.split(' ').map(w=>w[0]).join('');}
+</script>
+</div>
+</body>
+</html>
